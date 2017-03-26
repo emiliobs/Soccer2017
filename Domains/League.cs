@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domains
@@ -17,6 +19,8 @@ namespace Domains
 
         [DataType(DataType.ImageUrl)]
         public  string Logo{ get; set; }
+
+        public virtual ICollection<Team> Teams{ get; set; }
 
     }
 }
