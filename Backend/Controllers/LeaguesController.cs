@@ -19,6 +19,205 @@ namespace Backend.Controllers
     {
         private DataContextLocal db = new DataContextLocal();
 
+        #region Methods Teams
+
+        public async Task<ActionResult> CreateTeam(int? id)
+        {
+            if (id == null)
+            {
+                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var league = await db.Leagues.FindAsync(id);
+
+            if (league == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewData["League"] = league.Name;
+
+            var view = new TeamView()
+            {
+                LeagueId =  league.LeagueId,
+            };
+
+            return View(view);
+        }
+
+       [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateTeam(TeamView view)
+        {
+            if (ModelState.IsValid)
+            {
+                var picture = string.Empty;
+                var folder = "~/Content/Logos";
+
+                if (view.LogoFile != null)
+                {
+                    picture = FileHelper.UploadPhoto(view.LogoFile, folder);
+                    picture = $"{folder}/{picture}";
+
+                }
+
+                var team = ToTeam(view);
+
+                team.Logo = picture;
+
+
+                db.Teams.Add(team);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch
+                {
+
+
+                }
+
+                return RedirectToAction($"Details/{view.LeagueId}");
+            }
+
+            ViewBag.LeagueId = new SelectList(db.Leagues, "LeagueId", "Name", view.LeagueId);
+
+            return View(view);
+        }
+
+        public async Task<ActionResult> EditTeam(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Team team = await db.Teams.FindAsync(id);
+
+
+
+            if (team == null)
+            {
+                return HttpNotFound();
+            }
+
+           var view = ToView(team);
+
+            return View(view);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditTeam(TeamView view)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var picture = view.Logo;
+                var folder = "~/Content/Logos";
+
+                if (view.LogoFile != null)
+                {
+                    picture = FileHelper.UploadPhoto(view.LogoFile, folder);
+                    picture = $"{folder}/{picture}";
+
+                }
+
+                var team = ToTeam(view);
+
+                team.Logo = picture;
+
+
+                db.Entry(team).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch
+                {
+
+
+                }
+
+                return RedirectToAction($"Details/{view.LeagueId}");
+            }
+
+
+            return View(view);
+        }
+
+        public async Task<ActionResult> DeleteTeam(int? id)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Team team = await db.Teams.FindAsync(id);
+
+
+
+                if (team == null)
+                {
+                    return HttpNotFound();
+                }
+
+                db.Teams.Remove(team);
+
+                try
+                {
+                   await db.SaveChangesAsync();
+
+                    
+                }
+                catch (Exception)
+                {
+
+                    
+                }
+
+                return RedirectToAction($"Details/{team.LeagueId}");
+            }
+
+            return View();
+
+        }
+
+
+        private Team ToTeam(TeamView view)
+        {
+            return new Team
+            {
+                Initials = view.Initials,
+                League = view.League,
+                Name = view.Name,
+                Logo = view.Logo,
+                LeagueId = view.LeagueId,
+                TeamId = view.TeamId,
+            };
+        }
+
+        private TeamView ToView(Team team)
+        {
+            return new TeamView()
+            {
+                League = team.League,
+                Name = team.Name,
+                Logo = team.Logo,
+                LeagueId = team.LeagueId,
+                TeamId = team.TeamId,
+                Initials = team.Initials,
+            };
+        }
+
+        #endregion
+
+        #region Methods Native League 
+
         // GET: Leagues
         public async Task<ActionResult> Index()
         {
@@ -208,5 +407,7 @@ namespace Backend.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #endregion
     }
 }

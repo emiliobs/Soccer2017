@@ -1,21 +1,24 @@
-﻿@model  Backend.Models.TeamView
+﻿@model Backend.Models.TeamView
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Edit";
 }
 
-<h2>Create</h2>
+<h2>Edit</h2>
 
 
-@using (Html.BeginForm("Create", "Teams", FormMethod.Post, new { enctype = "multipart/form-data" }))
-
+@using (Html.BeginForm("EditTeam", "Leagues", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Team</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.TeamId)
+        @Html.HiddenFor(model => model.Logo)
+        @Html.HiddenFor(model => model.LeagueId)
+
         <div class="form-group">
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -41,23 +44,17 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeagueId, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("LeagueId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.LeagueId, "", new { @class = "text-danger" })
-            </div>
-        </div>
+       
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success" />
-                @Html.ActionLink("Back to List", "Index", new { }, new { @class = "bnt btn-default" })
+                <input type="submit" value="Save" class="btn btn-success" />
+                @Html.ActionLink("Back to Details", "Details", new { id = Model.LeagueId }, new { @class = "btn btn-default" })
+
             </div>
         </div>
     </div>
 }
-
 
 
 @section Scripts {
