@@ -18,6 +18,133 @@ namespace Backend.Controllers
     {
         private DataContextLocal db = new DataContextLocal();
 
+        #region Action from TournamentGroups
+
+        public async Task<ActionResult> CreateTournamenGroup(int? id)
+        {
+
+            if (id == null)
+            {
+               return new HttpStatusCodeResult(HttpStatusCode.BadRequest);  
+            }
+
+            var tournament = await db.Tournaments.FindAsync(id);
+
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewData["Tournamet"] = tournament.Name;
+
+             //aqui retorono all object have this  id  del tournametGrpup with your toournament;
+             var view = new TournamentGroup()
+             {
+                 TournamentId = tournament.TournamentId,
+             };
+            
+            return View(view);
+        }
+      
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateTournamenGroup(TournamentGroup tournamentGroup)
+        {
+            if (ModelState.IsValid)
+            {
+                db.TournamentGroups.Add(tournamentGroup);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                    
+                }
+
+                return RedirectToAction($"Details/{tournamentGroup.TournamentId}");
+            }
+
+            return View(tournamentGroup);
+        }
+
+
+        public async Task<ActionResult> EditTournamentGroup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            TournamentGroup tournamentGroup = await db.TournamentGroups.FindAsync(id);
+
+            ViewData["Tournamet"] = tournamentGroup.Tournament.Name;
+
+            if (tournamentGroup == null)
+            {
+                return HttpNotFound();
+            }      
+            return View(tournamentGroup);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditTournamentGroup(TournamentGroup tournamentGroup)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tournamentGroup).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                    
+                }
+
+                return RedirectToAction($"Details/{tournamentGroup.TournamentId}");
+            }
+            ViewBag.TournamentId = new SelectList(db.Tournaments, "TournamentId", "Name", tournamentGroup.TournamentId);
+            return View(tournamentGroup);
+        }
+
+        public async Task<ActionResult> DeleteTournamentGroup(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var tournamentGroup = await db.TournamentGroups.FindAsync(id);
+
+            if (tournamentGroup == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.TournamentGroups.Remove(tournamentGroup);
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+              
+            }
+
+            return RedirectToAction($"Details/{tournamentGroup.TournamentId}");
+        }
+
+        #endregion
+
+        #region Action Natives from Controller
+
         // GET: Tournaments
         public async Task<ActionResult> Index()
         {
@@ -209,5 +336,7 @@ namespace Backend.Controllers
             }
             base.Dispose(disposing);
         }
+
+        #endregion
     }
 }
