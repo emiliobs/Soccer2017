@@ -45,7 +45,8 @@
     @Html.ActionLink("Edit Tournament", "Edit", new { id = Model.TournamentId }, new{@class="btn btn-info"}) 
     @Html.ActionLink("Create Tournament Group", "CreateTournamenGroup", new { id = Model.TournamentId }, new { @class = "btn btn-warning" })
    @Html.ActionLink("Back to List", "Index", new{}, new { @class = "btn btn-default" })
-</p>
+</p> 
+<hr/>
 <h4>Groups.</h4> 
 @if (Model.TournamentGroup.Count == 0)
 {
@@ -83,3 +84,12 @@ else
 
     </table>
 }
+  <hr/>
+<div class="row">
+    <div class="col-md-6">
+          Hello
+    </div>
+    <div class="col-md-6">
+        Emilio
+    </div>
+</div>

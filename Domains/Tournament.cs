@@ -31,6 +31,7 @@ namespace Domains
 
         //Relacion:
         public virtual ICollection<TournamentGroup> TournamentGroup { get; set; }
+        public virtual ICollection<Date> Dates { get; set; }
 
 
     }
