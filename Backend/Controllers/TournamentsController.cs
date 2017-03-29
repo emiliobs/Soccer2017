@@ -20,12 +20,136 @@ namespace Backend.Controllers
 
         #region Action from TournamentGroups
 
+
+        // GET: Dates/Create
+        public async Task<ActionResult> CreateDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var tournament = await db.Tournaments.FindAsync(id);
+
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+
+            var view = new Date()
+            {
+                TournamentId = tournament.TournamentId,
+            };
+
+            ViewData["Tournament"] = tournament.Name;
+
+            return View(view);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateDate(Date date)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Dates.Add(date);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+
+                }
+                catch (Exception)
+                {
+
+                }
+
+                return RedirectToAction($"Details/{date.TournamentId}");
+            }
+
+            return View(date);
+        }
+
+        public async Task<ActionResult> EditDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var date = await db.Dates.FindAsync(id);
+
+            if (date == null)
+            {
+                return HttpNotFound();
+            }
+
+         
+                
+            return View(date);
+        }
+
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditDate(Date date)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(date).State = EntityState.Modified;
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                   
+                }
+
+                return RedirectToAction($"Details/{date.TournamentId}");
+            }
+
+
+            return View(date);
+        }
+
+        public async Task<ActionResult> DeleteDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var date = await db.Dates.FindAsync(id);
+
+            if (date == null)
+            {
+                return HttpNotFound();
+            }
+
+             db.Dates.Remove(date);
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+
+            }     
+
+            return RedirectToAction($"Details/{date.TournamentId}");
+        }
+
+       
         public async Task<ActionResult> CreateTournamenGroup(int? id)
         {
 
             if (id == null)
             {
-               return new HttpStatusCodeResult(HttpStatusCode.BadRequest);  
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             var tournament = await db.Tournaments.FindAsync(id);
@@ -37,15 +161,15 @@ namespace Backend.Controllers
 
             ViewData["Tournamet"] = tournament.Name;
 
-             //aqui retorono all object have this  id  del tournametGrpup with your toournament;
-             var view = new TournamentGroup()
-             {
-                 TournamentId = tournament.TournamentId,
-             };
-            
+            //aqui retorono all object have this  id  del tournametGrpup with your toournament;
+            var view = new TournamentGroup()
+            {
+                TournamentId = tournament.TournamentId,
+            };
+
             return View(view);
         }
-      
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateTournamenGroup(TournamentGroup tournamentGroup)
@@ -61,7 +185,7 @@ namespace Backend.Controllers
                 catch (Exception)
                 {
 
-                    
+
                 }
 
                 return RedirectToAction($"Details/{tournamentGroup.TournamentId}");
@@ -85,7 +209,7 @@ namespace Backend.Controllers
             if (tournamentGroup == null)
             {
                 return HttpNotFound();
-            }      
+            }
             return View(tournamentGroup);
         }
 
@@ -104,7 +228,7 @@ namespace Backend.Controllers
                 catch (Exception)
                 {
 
-                    
+
                 }
 
                 return RedirectToAction($"Details/{tournamentGroup.TournamentId}");
@@ -135,7 +259,7 @@ namespace Backend.Controllers
             }
             catch (Exception e)
             {
-              
+
             }
 
             return RedirectToAction($"Details/{tournamentGroup.TournamentId}");
@@ -148,7 +272,7 @@ namespace Backend.Controllers
         // GET: Tournaments
         public async Task<ActionResult> Index()
         {
-            return View(await db.Tournaments.OrderBy(t =>t.Name).ToListAsync());
+            return View(await db.Tournaments.OrderBy(t => t.Name).ToListAsync());
         }
 
         // GET: Tournaments/Details/5
@@ -205,7 +329,7 @@ namespace Backend.Controllers
                 catch (Exception)
                 {
 
-                    
+
                 }
 
                 return RedirectToAction("Index");
@@ -216,15 +340,15 @@ namespace Backend.Controllers
 
         private Tournament ToTournament(TournamentsView view)
         {
-             return  new Tournament()
-             {
-                 Name = view.Name,
-                 Logo =  view.Logo,
-                 IsActive = view.IsActive,
-                 Order = view.Order,
+            return new Tournament()
+            {
+                Name = view.Name,
+                Logo = view.Logo,
+                IsActive = view.IsActive,
+                Order = view.Order,
                 TournamentId = view.TournamentId,
-                 
-             };
+
+            };
         }
 
         // GET: Tournaments/Edit/5
@@ -249,16 +373,16 @@ namespace Backend.Controllers
 
         private TournamentsView ToView(Tournament tournament)
         {
-            return  new TournamentsView()
+            return new TournamentsView()
             {
                 IsActive = tournament.IsActive,
                 Order = tournament.Order,
                 Name = tournament.Name,
                 Logo = tournament.Logo,
                 TournamentId = tournament.TournamentId,
-                
-                
-                
+
+
+
             };
         }
 
@@ -294,7 +418,7 @@ namespace Backend.Controllers
                 catch (Exception)
                 {
 
-                    
+
                 }
 
                 return RedirectToAction("Index");

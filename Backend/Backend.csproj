@@ -58,6 +58,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -189,7 +190,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\DatesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaguesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -290,11 +290,8 @@
     <Content Include="Views\Tournaments\EditTournamentGroup.cshtml" />
     <Content Include="Views\Leagues\CreateTeam.cshtml" />
     <Content Include="Views\Leagues\EditTeam.cshtml" />
-    <Content Include="Views\Dates\Create.cshtml" />
-    <Content Include="Views\Dates\Delete.cshtml" />
-    <Content Include="Views\Dates\Details.cshtml" />
-    <Content Include="Views\Dates\Edit.cshtml" />
-    <Content Include="Views\Dates\Index.cshtml" />
+    <Content Include="Views\Tournaments\CreateDate.cshtml" />
+    <Content Include="Views\Tournaments\EditDate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
