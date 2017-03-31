@@ -29,5 +29,7 @@ namespace API.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Domains.League> Leagues { get; set; }
     }
 }

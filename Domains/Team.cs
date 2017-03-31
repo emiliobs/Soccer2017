@@ -33,5 +33,7 @@ namespace Domains
 
         //relations                    
         public virtual League  League{ get; set; }
+        public virtual ICollection<TournamentTeam> TournamentTeams { get; set; }
+
     }
 }

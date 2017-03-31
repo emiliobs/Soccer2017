@@ -19,7 +19,47 @@ namespace Backend.Controllers
         private DataContextLocal db = new DataContextLocal();
 
         #region Action from TournamentGroups
+                                               
+        public ActionResult CreateTeam()
+        {
+            ViewBag.TeamId = new SelectList(db.Teams, "TeamId", "Name");
+            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups, "TournamentGroupId", "Name");
+            return View();
+        }
 
+       [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateTeam([Bind(Include = "TournamentTeamId,TournamentGroupId,TeamId,MatchesPlayed,MatchesWon,MatchesLost,MatchesTied,FavorGoals,AgainstGoals,Points,Position")] TournamentTeam tournamentTeam)
+        {
+            if (ModelState.IsValid)
+            {
+                db.TournamentTeams.Add(tournamentTeam);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.TeamId = new SelectList(db.Teams, "TeamId", "Name", tournamentTeam.TeamId);
+            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups, "TournamentGroupId", "Name", tournamentTeam.TournamentGroupId);
+            return View(tournamentTeam);
+        }
+
+        public async Task<ActionResult> DetailsTournamentGroup(int? id)
+        {
+            if (id == null)
+            {
+               return  new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var tournamentGroup = await db.TournamentGroups.FindAsync(id);
+
+            if (tournamentGroup == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(tournamentGroup);
+
+        }
 
         // GET: Dates/Create
         public async Task<ActionResult> CreateDate(int? id)

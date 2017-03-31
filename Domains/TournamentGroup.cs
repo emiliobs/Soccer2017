@@ -26,5 +26,7 @@ namespace Domains
 
         //Realcion:
         public virtual Tournament Tournament { get; set; }
+
+        public virtual ICollection<TournamentTeam> TournamentTeams { get; set; }
     }
 }
