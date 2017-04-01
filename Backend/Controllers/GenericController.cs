@@ -16,7 +16,7 @@ namespace Backend.Controllers
         {
             db.Configuration.ProxyCreationEnabled = false;
 
-            var team = db.Teams.Where(t => t.LeagueId == lagueId);
+            var team = db.Teams.Where(t => t.LeagueId == lagueId).OrderBy(t => t.Name);
 
             return Json(team);
         }

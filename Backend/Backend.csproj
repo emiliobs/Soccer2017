@@ -303,6 +303,7 @@
     <Content Include="Views\TournamentTeams\Index.cshtml" />
     <Content Include="Views\Tournaments\DetailsTournamentGroup.cshtml" />
     <Content Include="Views\Tournaments\CreateTeam.cshtml" />
+    <Content Include="Views\Tournaments\EditTeam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

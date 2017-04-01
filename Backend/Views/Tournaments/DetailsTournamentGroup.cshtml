@@ -99,7 +99,7 @@ else
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "EditTeam", new { id = item.TournamentTeamId }, new{@class     = "btn btn-info"}) 
-                    @Html.ActionLink("Delete", "DeleteTeam", new { id = item.TournamentTeamId }, new{@class = "btn btn-danger"})
+                    @Html.ActionLink("Delete", "DeleteTeam", new { id = item.TournamentTeamId }, new{@class = "btn btn-danger", onclick="return confirm('Are you sure to Delete this Record?')"})
                 </td>
             </tr>
         }
