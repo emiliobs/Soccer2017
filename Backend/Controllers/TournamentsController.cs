@@ -18,28 +18,64 @@ namespace Backend.Controllers
     {
         private DataContextLocal db = new DataContextLocal();
 
+      
+
         #region Action from TournamentGroups
-                                               
-        public ActionResult CreateTeam()
+
+        public async Task<ActionResult> CreateTeam(int? id)
         {
-            ViewBag.TeamId = new SelectList(db.Teams, "TeamId", "Name");
-            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups, "TournamentGroupId", "Name");
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var tournamentGroup = await db.TournamentGroups.FindAsync(id);
+
+            if (tournamentGroup == null)
+            {
+                return HttpNotFound();
+            }
+
+
+            ViewBag.LeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name");
+
+            ViewBag.TeamId = new SelectList(db.Teams.OrderBy(t => t.Name).Where(t => t.LeagueId == db.Leagues.FirstOrDefault().LeagueId), "TeamId", "Name");
+
+            var view = new TournamentTeamView()
+            {
+                TournamentGroupId = tournamentGroup.TournamentGroupId,
+            };
+              
+            return View(view);
         }
 
        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> CreateTeam([Bind(Include = "TournamentTeamId,TournamentGroupId,TeamId,MatchesPlayed,MatchesWon,MatchesLost,MatchesTied,FavorGoals,AgainstGoals,Points,Position")] TournamentTeam tournamentTeam)
+        public async Task<ActionResult> CreateTeam(TournamentTeam tournamentTeam)
         {
             if (ModelState.IsValid)
             {
                 db.TournamentTeams.Add(tournamentTeam);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                    
+                }
+
+
+                return RedirectToAction($"DetailsTournamentGroup/{tournamentTeam.TournamentGroupId}");
             }
 
-            ViewBag.TeamId = new SelectList(db.Teams, "TeamId", "Name", tournamentTeam.TeamId);
-            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups, "TournamentGroupId", "Name", tournamentTeam.TournamentGroupId);
+            ViewBag.LeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name");
+
+            ViewBag.TeamId = new SelectList(db.Teams.OrderBy(t => t.Name).Where(t => t.LeagueId == db.Leagues.FirstOrDefault().LeagueId), "TeamId", "Name");
+
+
             return View(tournamentTeam);
         }
 
