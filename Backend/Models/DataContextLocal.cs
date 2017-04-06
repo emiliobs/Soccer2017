@@ -16,5 +16,11 @@ namespace Backend.Models
         public System.Data.Entity.DbSet<Domains.Status> Status { get; set; }
 
         public System.Data.Entity.DbSet<Domains.Match> Matches { get; set; }
+
+        public System.Data.Entity.DbSet<Domains.Predictions> Predictions { get; set; }
+
+        public System.Data.Entity.DbSet<Domains.Group> Groups { get; set; }
+
+        public System.Data.Entity.DbSet<Domains.GroupUser> GroupUsers { get; set; }
     }
 }

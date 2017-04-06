@@ -14,7 +14,7 @@ using Domains;
 
 namespace Backend.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class LeaguesController : Controller
     {
         private DataContextLocal db = new DataContextLocal();

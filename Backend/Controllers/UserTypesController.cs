@@ -12,7 +12,7 @@ using Domains;
 
 namespace Backend.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class UserTypesController : Controller
     {
         private DataContextLocal db = new DataContextLocal();

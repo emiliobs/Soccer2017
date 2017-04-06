@@ -50,5 +50,12 @@ namespace Domains
 
         public virtual Team FavoriteTeam { get; set; }
 
+        public virtual ICollection<Group> UserGroups { get; set; }
+
+        public virtual ICollection<GroupUser> GroupUsers { get; set; }
+
+        public virtual ICollection<Predictions> Predictions { get; set; }
+
+
     }
 }

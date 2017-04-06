@@ -70,4 +70,27 @@ $(document).ready(function () {
         return false;
     });
 
-});
+    $("#FavoriteLeagueId").change(function () {
+        $("#FavoriteTeamId").empty();
+        $.ajax({
+            type: 'POST',
+            url: Url,
+            //lo dejo asi, para quesea dinamico,//url: '@Url.Action("GetTeams")', aqui seria desde la misma vista
+            dataType: 'json',
+            data: { lagueId: $("#FavoriteLeagueId").val() },
+            //aqui paso el parametro, de lo seleccionado del combobox de leagueId
+            success: function (team) {
+                $.each(team,
+                    function (i, team) {
+                        $("#FavoriteTeamId").append('<option value="' + team.TeamId + '">' + team.Name + '</option>');
+                    });
+            },
+            error: function (ex) {
+                alert('Failed to retrieve Teams.' + ex);
+            }
+        });
+        return false;
+    });
+
+}); //fin
+

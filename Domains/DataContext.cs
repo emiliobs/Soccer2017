@@ -18,6 +18,7 @@ namespace Domains
 
             modelBuilder.Configurations.Add(new UsersMap());
             modelBuilder.Configurations.Add(new MachesMap());
+            modelBuilder.Configurations.Add(new GroupsMap());
         }
 
         public DbSet<League> Leagues { get; set; }    

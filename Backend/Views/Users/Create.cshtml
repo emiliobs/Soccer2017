@@ -1,4 +1,4 @@
-﻿@model Domains.User
+﻿@model  Backend.Models.UserView
 
 @{
     ViewBag.Title = "Create";
@@ -7,14 +7,14 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Users", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
         <h4>User</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })     
         <div class="form-group">
             @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -22,7 +22,7 @@
                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
-
+                    
         <div class="form-group">
             @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -38,15 +38,6 @@
                 @Html.ValidationMessageFor(model => model.UserTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Picture, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Picture, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Picture, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -62,9 +53,43 @@
                 @Html.ValidationMessageFor(model => model.NickName, "", new { @class = "text-danger" })
             </div>
         </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.PasswordConfirm, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PasswordConfirm, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PasswordConfirm, "", new { @class = "text-danger" })
+            </div>
+        </div>   
+                          
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.PictureFile, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span class="btn btn-warning btn btn-file">
+                    @Html.TextBoxFor(modelo => modelo.PictureFile, new { type = "file" })
+                </span>
+            </div>
+        </div>
+
+       <div class="form-group">
+            @Html.LabelFor(model => model.FavoriteLeagueId,"Favorite League", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FavoriteLeagueId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FavoriteLeagueId, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.FavoriteTeamId, "FavoriteTeamId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.FavoriteTeamId, "Favorite Team", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("FavoriteTeamId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.FavoriteTeamId, "", new { @class = "text-danger" })
@@ -92,5 +117,11 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")     
+
+    <script type="text/javascript">
+         //aqui colo el llamado Url  dinamico y controlador generico:
+          var Url = '@Url.Action("GetTeams", "Generic")'
+</script>
+
 }

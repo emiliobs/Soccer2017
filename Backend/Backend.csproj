@@ -189,12 +189,17 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes\MailHelper.cs" />
+    <Compile Include="Classes\UsersHelper.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GenericController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
+    <Compile Include="Controllers\GroupUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaguesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MatchesController.cs" />
+    <Compile Include="Controllers\PredictionsController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\TournamentsController.cs" />
     <Compile Include="Controllers\TournamentTeamsController.cs" />
@@ -214,6 +219,7 @@
     <Compile Include="Models\TeamView.cs" />
     <Compile Include="Models\TournamentsView.cs" />
     <Compile Include="Models\TournamentTeamView.cs" />
+    <Compile Include="Models\UserView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -331,6 +337,21 @@
     <Content Include="Views\Matches\Index.cshtml" />
     <Content Include="Views\Tournaments\DetailsDate.cshtml" />
     <Content Include="Views\Tournaments\CreateMatch.cshtml" />
+    <Content Include="Views\Predictions\Create.cshtml" />
+    <Content Include="Views\Predictions\Delete.cshtml" />
+    <Content Include="Views\Predictions\Details.cshtml" />
+    <Content Include="Views\Predictions\Edit.cshtml" />
+    <Content Include="Views\Predictions\Index.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Delete.cshtml" />
+    <Content Include="Views\Groups\Details.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\GroupUsers\Create.cshtml" />
+    <Content Include="Views\GroupUsers\Delete.cshtml" />
+    <Content Include="Views\GroupUsers\Details.cshtml" />
+    <Content Include="Views\GroupUsers\Edit.cshtml" />
+    <Content Include="Views\GroupUsers\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

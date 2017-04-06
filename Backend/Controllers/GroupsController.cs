@@ -12,108 +12,112 @@ using Domains;
 
 namespace Backend.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class StatusController : Controller
+    public class GroupsController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
 
-        // GET: Status
+        // GET: Groups
         public async Task<ActionResult> Index()
         {
-            return View(await db.Status.ToListAsync());
+            var groups = db.Groups.Include(g => g.Owner);
+            return View(await groups.ToListAsync());
         }
 
-        // GET: Status/Details/5
+        // GET: Groups/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Status status = await db.Status.FindAsync(id);
-            if (status == null)
+            Group group = await db.Groups.FindAsync(id);
+            if (group == null)
             {
                 return HttpNotFound();
             }
-            return View(status);
+            return View(group);
         }
 
-        // GET: Status/Create
+        // GET: Groups/Create
         public ActionResult Create()
         {
+            ViewBag.OwnerId = new SelectList(db.Users, "UserId", "FirstName");
             return View();
         }
 
-        // POST: Status/Create
+        // POST: Groups/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "StatusId,Name")] Status status)
+        public async Task<ActionResult> Create([Bind(Include = "GroupId,Name,OwnerId")] Group group)
         {
             if (ModelState.IsValid)
             {
-                db.Status.Add(status);
+                db.Groups.Add(group);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(status);
+            ViewBag.OwnerId = new SelectList(db.Users, "UserId", "FirstName", group.OwnerId);
+            return View(group);
         }
 
-        // GET: Status/Edit/5
+        // GET: Groups/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Status status = await db.Status.FindAsync(id);
-            if (status == null)
+            Group group = await db.Groups.FindAsync(id);
+            if (group == null)
             {
                 return HttpNotFound();
             }
-            return View(status);
+            ViewBag.OwnerId = new SelectList(db.Users, "UserId", "FirstName", group.OwnerId);
+            return View(group);
         }
 
-        // POST: Status/Edit/5
+        // POST: Groups/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "StatusId,Name")] Status status)
+        public async Task<ActionResult> Edit([Bind(Include = "GroupId,Name,OwnerId")] Group group)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(status).State = EntityState.Modified;
+                db.Entry(group).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(status);
+            ViewBag.OwnerId = new SelectList(db.Users, "UserId", "FirstName", group.OwnerId);
+            return View(group);
         }
 
-        // GET: Status/Delete/5
+        // GET: Groups/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Status status = await db.Status.FindAsync(id);
-            if (status == null)
+            Group group = await db.Groups.FindAsync(id);
+            if (group == null)
             {
                 return HttpNotFound();
             }
-            return View(status);
+            return View(group);
         }
 
-        // POST: Status/Delete/5
+        // POST: Groups/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Status status = await db.Status.FindAsync(id);
-            db.Status.Remove(status);
+            Group group = await db.Groups.FindAsync(id);
+            db.Groups.Remove(group);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
