@@ -194,8 +194,12 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaguesController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MatchesController.cs" />
+    <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\TournamentsController.cs" />
     <Compile Include="Controllers\TournamentTeamsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\UserTypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -206,6 +210,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LeagueView.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MatchView.cs" />
     <Compile Include="Models\TeamView.cs" />
     <Compile Include="Models\TournamentsView.cs" />
     <Compile Include="Models\TournamentTeamView.cs" />
@@ -304,6 +309,28 @@
     <Content Include="Views\Tournaments\DetailsTournamentGroup.cshtml" />
     <Content Include="Views\Tournaments\CreateTeam.cshtml" />
     <Content Include="Views\Tournaments\EditTeam.cshtml" />
+    <Content Include="Views\UserTypes\Create.cshtml" />
+    <Content Include="Views\UserTypes\Delete.cshtml" />
+    <Content Include="Views\UserTypes\Details.cshtml" />
+    <Content Include="Views\UserTypes\Edit.cshtml" />
+    <Content Include="Views\UserTypes\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Status\Create.cshtml" />
+    <Content Include="Views\Status\Delete.cshtml" />
+    <Content Include="Views\Status\Details.cshtml" />
+    <Content Include="Views\Status\Edit.cshtml" />
+    <Content Include="Views\Status\Index.cshtml" />
+    <Content Include="Views\Matches\Create.cshtml" />
+    <Content Include="Views\Matches\Delete.cshtml" />
+    <Content Include="Views\Matches\Details.cshtml" />
+    <Content Include="Views\Matches\Edit.cshtml" />
+    <Content Include="Views\Matches\Index.cshtml" />
+    <Content Include="Views\Tournaments\DetailsDate.cshtml" />
+    <Content Include="Views\Tournaments\CreateMatch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

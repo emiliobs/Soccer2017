@@ -18,9 +18,112 @@ namespace Backend.Controllers
     {
         private DataContextLocal db = new DataContextLocal();
 
-      
+
 
         #region Action from TournamentGroups
+
+        public async Task<ActionResult> CreateMatch(int? id)
+        {
+            if (id == null)
+            {
+               return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var date = await db.Dates.FindAsync(id);
+
+            if (date == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.LocalLeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name");//Esto espor que ya hau una liga seleccionada
+            ViewBag.LocalId = new SelectList(db.Teams.OrderBy(t => t.Name).Where(t => t.LeagueId == db.Leagues.FirstOrDefault().LeagueId).OrderBy(t => t.Name), "LeagueId", "Name");//aqui tomo solo el team de la liga seleccionada
+
+            ViewBag.VisitorLeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name");//Esto espor que ya hau una liga seleccionada
+            ViewBag.VisitorId = new SelectList(db.Teams.OrderBy(t => t.Name).Where(t => t.LeagueId == db.Leagues.FirstOrDefault().LeagueId).OrderBy(t => t.Name), "LeagueId", "Name");//aqui tomo solo el team de la liga seleccionada
+
+            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups.Where(tg => tg.TournamentId.Equals(date.TournamentId)).OrderBy(tg=>tg.Name), "TournamentGroupId", "Name");
+
+            var view = new MatchView()
+            {
+                DateId =  date.DateId,
+            };
+
+            return View(view);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateMatch(MatchView  view)
+        {
+            if (ModelState.IsValid)
+            {
+                
+
+                view.StatusId = 1;
+                view.DateTime = Convert.ToDateTime($"{view.DateString} {view.TimeString}");
+
+                var match = ToMach(view);
+
+                db.Matches.Add(match);
+
+                try
+                {
+                    await db.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+
+                    
+                }
+
+                return RedirectToAction($"DetailsDate/{match.DateId}");
+            }
+
+            var date = await db.Dates.FindAsync(view.DateId);
+
+            ViewBag.LocalLeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name", view.LocalId);//Esto espor que ya hau una liga seleccionada
+            ViewBag.LocalId = new SelectList(db.Teams.Where(t => t.LeagueId.Equals(view.LocalLeagueId)).OrderBy(t => t.Name), "LeagueId", "Name", view.LocalId);//aqui tomo solo el team de la liga seleccionada
+
+            ViewBag.VisitorLeagueId = new SelectList(db.Leagues.OrderBy(l => l.Name), "LeagueId", "Name", view.VisitorId);//Esto espor que ya hau una liga seleccionada
+            ViewBag.VisitorId = new SelectList(db.Teams.Where(t => t.LeagueId.Equals(view.VisitorLeagueId)).OrderBy(t => t.Name), "LeagueId", "Name", view.VisitorId);//aqui tomo solo el team de la liga seleccionada
+
+            ViewBag.TournamentGroupId = new SelectList(db.TournamentGroups.Where(tg => tg.TournamentId.Equals(date.DateId)).OrderBy(tg=>tg.Name), "TournamentGroupId", "Name");
+
+            return View(view);
+        }
+
+        private Match ToMach(MatchView view)
+        {
+            return  new Match()
+            {
+                DateTime = view.DateTime,
+                DateId = view.DateId,
+                LocalId = view.LocalId,
+                VisitorId = view.VisitorId,
+               StatusId = view.StatusId,
+               TournamentGroupId = view.TournamentGroupId,
+
+            };
+        }
+
+        public async Task<ActionResult> DetailsDate(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var date = await db.Dates.FindAsync(id);
+
+            if (date == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(date);
+
+        }
 
         public async Task<ActionResult> CreateTeam(int? id)
         {

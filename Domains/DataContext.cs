@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domains
 {
@@ -20,6 +15,9 @@ namespace Domains
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            modelBuilder.Configurations.Add(new UsersMap());
+            modelBuilder.Configurations.Add(new MachesMap());
         }
 
         public DbSet<League> Leagues { get; set; }    

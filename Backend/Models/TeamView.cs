@@ -10,7 +10,6 @@ namespace Backend.Models
     [NotMapped]
     public class TeamView  : Team
     {
-
         public HttpPostedFileBase LogoFile { get; set; }
 
     }

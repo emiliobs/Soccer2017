@@ -28,5 +28,8 @@ namespace Domains
         public virtual Tournament Tournament { get; set; }
 
         public virtual ICollection<TournamentTeam> TournamentTeams { get; set; }
+
+        public virtual ICollection<Match> Matches { get; set; }
+
     }
 }

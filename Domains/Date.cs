@@ -22,5 +22,7 @@ namespace Domains
         [Index("Date_Name_TournamentId_Index", IsUnique = true, Order = 2)]
         public int TournamentId { get; set; }           
         public virtual Tournament Tournament { get; set; }
+
+        public virtual ICollection<Match> Matches { get; set; }
     }
 }
