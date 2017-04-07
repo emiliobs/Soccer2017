@@ -33,7 +33,7 @@ namespace API.Controllers
             {
                 email = jsonObject.Email.Value;
             }
-            catch (Exception e)
+            catch
             {
                 return BadRequest("Incorrect Call.!");
             }
