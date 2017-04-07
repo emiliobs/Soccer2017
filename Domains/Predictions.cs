@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -29,8 +30,10 @@ namespace Domains
 
         public int Points { get; set; }
 
+        [JsonIgnore]
         public virtual User User { get; set; }
 
+        [JsonIgnore]
         public virtual Match Match { get; set; }
 
     }

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -26,8 +27,6 @@ namespace Domains
         [Display(Name = "User type")]
         public int UserTypeId { get; set; }
 
-        public virtual UserType UserType { get; set; }
-
         [DataType(DataType.ImageUrl)]
         public string Picture { get; set; }
 
@@ -48,12 +47,20 @@ namespace Domains
 
         public int Points { get; set; }
 
+        [JsonIgnore]
         public virtual Team FavoriteTeam { get; set; }
 
+        [JsonIgnore]
+
+        public virtual UserType UserType { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Group> UserGroups { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<GroupUser> GroupUsers { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Predictions> Predictions { get; set; }
 
 

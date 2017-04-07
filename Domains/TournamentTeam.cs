@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -43,8 +44,10 @@ namespace Domains
 
         public int Position { get; set; }
 
+        [JsonIgnore]
         public virtual TournamentGroup TournamentGroup { get; set; }
 
+        [JsonIgnore]
         public virtual Team Team { get; set; }
 
     }

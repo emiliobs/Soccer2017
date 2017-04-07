@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -19,6 +20,7 @@ namespace Domains
         [Index("UserType_Name_Index", IsUnique = true)]
         public string Name { get; set; }
 
+        [JsonIgnore]
         public virtual  ICollection<User> Users { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -37,18 +38,26 @@ namespace Domains
 
         [Display(Name = "Group")]
         public int TournamentGroupId { get; set; }
+       
+        //relaciones
 
+        [JsonIgnore]
         public virtual Date Date { get; set; }
 
+        [JsonIgnore]
         public virtual Team Local { get; set; }
 
+        [JsonIgnore]
         public virtual Team Visitor { get; set; }
 
+        [JsonIgnore]
         public virtual Status Status { get; set; }
 
+        [JsonIgnore]
         public virtual TournamentGroup TournamentGroup { get; set; }
 
-        
+        [JsonIgnore]
+        public virtual ICollection<Predictions> Predictionses { get; set; }
 
     }
 }

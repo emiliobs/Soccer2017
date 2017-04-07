@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -20,6 +21,7 @@ namespace Domains
         [Display(Name = "Status")]
         public string Name { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Match> Matches { get; set; }
 
     }

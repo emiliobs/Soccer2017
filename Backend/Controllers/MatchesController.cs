@@ -12,7 +12,6 @@ using Domains;
 
 namespace Backend.Controllers
 {
-    [Authorize]
     public class MatchesController : Controller
     {
         private DataContextLocal db = new DataContextLocal();

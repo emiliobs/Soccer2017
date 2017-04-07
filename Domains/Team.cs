@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -31,11 +32,20 @@ namespace Domains
         [Display(Name = "League")]
         public int LeagueId { get; set; }
 
-        //relations                    
+        //relations       
+        [JsonIgnore]
         public virtual League  League{ get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<TournamentTeam> TournamentTeams { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<User> Fans { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Match> Locals { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<Match> Visitors { get; set; }
 
 

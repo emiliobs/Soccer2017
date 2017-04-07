@@ -25,5 +25,9 @@ namespace Domains
         public DbSet<Team> Teams { get; set; }
         public DbSet<Tournament> Tournaments { get; set; }    
         public DbSet<TournamentGroup> TournamentGroups { get; set; }
+
+        public System.Data.Entity.DbSet<Domains.User> Users { get; set; }
+
+        public System.Data.Entity.DbSet<Domains.UserType> UserTypes { get; set; }
     }
 }

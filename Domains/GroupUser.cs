@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Domains
 {
@@ -30,8 +31,10 @@ namespace Domains
 
         public int Points { get; set; }
 
+        [JsonIgnore]
         public virtual Group Group { get; set; }
 
+        [JsonIgnore]
         public virtual User User { get; set; }
 
     }
